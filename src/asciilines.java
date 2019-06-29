@@ -1,9 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.InputMismatchException;
 
 public class asciilines {
 
-    private char [][] solution;
+    private char [][] solution = null;
 
     char[][] solveForTVG(String path) {
 
@@ -13,58 +14,51 @@ public class asciilines {
             String command = reader.readLine();
             setUpCanvas(Integer.parseInt(canvasDimensions[0]),Integer.parseInt(canvasDimensions[1]));
 
-
             while(command != null){
                 String [] currentCommand = command.split(" ");
-                char goalChar = currentCommand[0].charAt(0);
-                int startRow = Integer.parseInt(currentCommand[1]);
-                int startCol = Integer.parseInt(currentCommand[2]);
                 char direction = currentCommand[3].charAt(0);
-                int dirLength = Integer.parseInt(currentCommand[4]);
                 if(direction == 'v'){
-                    verticalRendering(goalChar,startRow,startCol,dirLength);
+                    verticalRendering(currentCommand[0].charAt(0),Integer.parseInt(currentCommand[1])
+                            ,Integer.parseInt(currentCommand[2]),Integer.parseInt(currentCommand[4]));
                 }
                 else if(direction == 'h'){
-                    horizantalRendering(goalChar,startRow,startCol,dirLength);
+                    horizontalRendering(currentCommand[0].charAt(0),Integer.parseInt(currentCommand[1])
+                            ,Integer.parseInt(currentCommand[2]),Integer.parseInt(currentCommand[4]));
+                }else{
+                    throw new InputMismatchException();
                 }
                 command = reader.readLine();
             }
         }catch(Exception formatException){
-            System.out.println("!!!!!\nCanvas could not be set up based on given tvg file. Check Format\n" +
-                    "Exception Type: " + formatException.getClass().getName() + "\n" +
-                    "Problem Encountered At Line: " + formatException.getCause());
+            System.out.println("!!!!!\nBroken Format: Output couldn't be produced by the given tvg file. Check Format!\n!!!!!");
             System.exit(-1);
         }
-
         return solution;
     }
 
-
     private void verticalRendering(char goal, int srow, int scol, int dLen){
-        if (srow < 0){
-            srow = 0;
-        }
-        if (scol < 0){
-            scol = 0;
-        }
-        for (int i = srow; i<solution.length && i<srow+dLen; i++){
-            solution[i][scol] = goal;
+
+        for (int i = checkIfInBound(srow); i<solution.length && i<srow+dLen; i++){
+            if (scol < solution[i].length && scol >= 0) {
+                solution[i][scol] = goal;
+            }
         }
     }
 
-    private void horizantalRendering(char goal, int srow, int scol, int dLen){
-        if(srow < 0){
-            srow = 0;
-        }
-        if(scol < 0){
-            scol = 0;
-        }
+    private void horizontalRendering(char goal, int srow, int scol, int dLen){
 
-        if(srow < solution.length){
-            for(int j = scol; (j< solution[srow].length && j<scol+dLen); j++){
+        if(srow < solution.length && srow >=0){
+            for(int j = checkIfInBound(scol); (j< solution[srow].length && j<scol+dLen); j++){
                 solution[srow][j] = goal;
             }
         }
+    }
+
+    private int checkIfInBound(int num){
+        if (num < 0){
+            return 0;
+        }
+        return num;
     }
 
     /* initializes the canvas */
@@ -79,18 +73,23 @@ public class asciilines {
 
     private void displaySolution(){
 
-        for (char[] chars : solution) {
-            for (char aChar : chars) {
-                System.out.print(aChar);
+        if(solution != null){
+            for (char[] chars : solution) {
+                for (char aChar : chars) {
+                    System.out.print(aChar);
+                }
+                System.out.println();
             }
-            System.out.println();
         }
+        else{
+            System.out.println("Currently holding no solutions");
+        }
+
     }
 
     public static void main(String [] args ){
         asciilines newRenderer = new asciilines();
         newRenderer.solveForTVG(args[0]);
-
         newRenderer.displaySolution();
     }
 

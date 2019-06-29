@@ -1,9 +1,7 @@
 import org.junit.jupiter.api.Test;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class asciilinesTest {
@@ -74,6 +72,16 @@ class asciilinesTest {
         asciilines testAsciiLinesObject = new asciilines();
         char [][] result = testAsciiLinesObject.solveForTVG("tests/test5.tvg");
         assertArrayEquals(expected,result);
+    }
+
+
+    @Test
+    void testSolveForTVG6(){
+        char [][] expected = getSolutionMatrix("tests/test7.out", "tests/test7.tvg");
+        asciilines testAsciiLinesObject = new asciilines();
+        char [][] result = testAsciiLinesObject.solveForTVG("tests/test7.tvg");
+        assertArrayEquals(expected,result);
+
     }
 
 
