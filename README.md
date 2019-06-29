@@ -12,6 +12,9 @@ once it is built, the program accepts a single .tvg file as in the example:
 
 `java src/asciilines.java tests/test1.tvg`
 
+# Bugs&Failures:
+Currently all tests pass and no problem encountered. Feel free to notify if any bug is encountered
+
 # Tests:
 All tests are written in junit5. Tests can be run with the help of an IDE or through commandline  with the help of junit-platform-console-standalone
 
