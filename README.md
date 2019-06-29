@@ -12,8 +12,8 @@ once it is built, the program accepts a single .tvg file as in the example:
 
 `java src/asciilines.java tests/test1.tvg`
 
-#Tests
+# Tests:
 All tests are written in junit5. Tests can be run with the help of an IDE or through commandline  with the help of junit-platform-console-standalone
 
-#License
+# License:
 This program is licensed under the "MIT License". Please see the file LICENSE in the source distribution of this software for license terms.
