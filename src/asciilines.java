@@ -88,6 +88,19 @@ public class asciilines {
     }
 
     public static void main(String [] args ){
+
+        if (args.length < 1){
+            System.err.println("Missing argument (.tvg file)");
+            System.exit(1);
+        }else if (args.length > 1){
+            System.err.println("Too many arguments, please run with only one .tvg file at a time");
+            System.exit(1);
+        }
+
+        if (args[0].length() < 4 || !(args[0].substring(args[0].length() - 4).equals(".tvg"))){
+            throw  new IllegalArgumentException("Invalid file");
+        }
+
         asciilines newRenderer = new asciilines();
         newRenderer.solveForTVG(args[0]);
         newRenderer.displaySolution();
